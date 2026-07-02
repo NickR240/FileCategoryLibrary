@@ -11,4 +11,7 @@ target_include_directories(FileCategoryLibrary
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_compile_features(FileCategoryLibrary PUBLIC cxx_std_17)
+target_compile_features(FileCategoryLibrary
+    PUBLIC
+        cxx_std_17
+)
