@@ -1,12 +1,55 @@
-﻿// FileCategoryLibrary.cpp : Defines the entry point for the application.
-//
+#include "FileCategoryLibrary/FileCategory.h"
 
-#include "FileCategoryLibrary.h"
+#include <algorithm>
+#include <cctype>
+#include <string>
+#include <unordered_map>
 
-using namespace std;
-
-int main()
+namespace file_category
 {
-	cout << "Hello CMake." << endl;
-	return 0;
+    std::string getCategory(const std::string& extension)
+    {
+        std::string normalizedExtension = extension;
+
+        std::transform(
+            normalizedExtension.begin(),
+            normalizedExtension.end(),
+            normalizedExtension.begin(),
+            [](unsigned char character)
+            {
+                return static_cast<char>(std::tolower(character));
+            });
+
+        static const std::unordered_map<std::string, std::string> categories{
+            {".jpg", "Images"},
+            {".jpeg", "Images"},
+            {".png", "Images"},
+            {".gif", "Images"},
+
+            {".pdf", "Documents"},
+            {".txt", "Documents"},
+            {".docx", "Documents"},
+
+            {".mp4", "Videos"},
+            {".mkv", "Videos"},
+            {".avi", "Videos"},
+
+            {".mp3", "Audio"},
+            {".flac", "Audio"},
+            {".wav", "Audio"},
+
+            {".zip", "Archives"},
+            {".rar", "Archives"},
+            {".7z", "Archives"}
+        };
+
+        const auto result = categories.find(normalizedExtension);
+
+        if (result != categories.end())
+        {
+            return result->second;
+        }
+
+        return "Other";
+    }
 }
